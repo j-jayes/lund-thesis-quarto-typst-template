@@ -196,8 +196,36 @@
 
   math-font: "New Computer Modern Math",
 
+  // --- metadata from YAML ---
+  meta-title: none,
+  meta-thanks: none,
+  meta-authors: [],
+  meta-affiliations: [],
+  meta-abstract: none,
+  meta-keywords: [],
+  meta-jel: [],
+
   body
 ) = {
+  // Punctuation superscripts for affiliations (order matters)
+  let aff_syms = ["*", "†", "‡", "§", "¶", "‖", "††", "‡‡", "§§", "¶¶"]
+
+  // Find the index of an affiliation by id or name in meta-affiliations
+  let aff_index = (needle) => {
+    let i = 0
+    for a in meta-affiliations {
+      if (a.name == needle) or (a.id == needle) { i }
+      else { i = i + 1 }
+    }
+    // If not found, -1
+    -1
+  }
+
+  let aff_symbol = (aff_ref) => {
+    let idx = aff_index(aff_ref)
+    if idx >= 0 and idx < aff_syms.len() { aff_syms.at(idx) } else { "?" }
+  }
+
   // Body text
   set text(font: body-font, size: body-size, hyphenate: hyphenate)
   set par(
@@ -207,7 +235,7 @@
     spacing: paragraph-spacing         // space between paragraphs
   )
 
-  // Headings (unchanged)
+  // Headings
   set heading(numbering: heading-numbering)
   show heading: it => {
     set text(font: heading-font)
@@ -230,11 +258,63 @@
   }
 
   // Lists & math
-  // (Remove any old 'set list(spacing: auto)' line.)
   set list(tight: true, spacing: 0.30em)
   set enum(tight: true, spacing: 0.30em)
-
   show math.equation: set text(font: math-font)
+
+  // ------------------------------------------------------------
+  // FRONT MATTER (Title • Authors • Affiliations • Thanks • Abstract)
+  // ------------------------------------------------------------
+
+  // Symbols used to mark affiliations in the order provided
+  let aff_syms = ["*", "†", "‡", "§", "¶", "‖", "††", "‡‡", "§§", "¶¶"]
+
+  // Build affiliations and authors from YAML at template time.
+  let affs = [
+    
+  ]
+
+  let authors = [
+    
+  ]
+
+  // Look up a symbol for a given affiliation ref (id or name)
+  let aff_symbol = (ref) => {
+    let i = 0
+    while i < affs.len() {
+      if (affs.at(i).name == ref) or (affs.at(i).id == ref) {
+        return aff_syms.at(i)
+      }
+      i += 1
+    }
+    "?"
+  }
+
+  // ==== Title line (with optional "thanks" footnote) ====
+    align(center)[
+    #set text(font: heading-font, size: h1-size + 2pt, weight: 600)
+    Demo: Thesis Body
+     #footnote{"I gratefully acknowledge the support of colleagues, mentors, friends, and family whose guidance and encouragement made this work possible."
+
+} 
+  ]
+  
+  // ==== Authors (with punctuation superscripts + ✉ footnote for corresponding) ====
+  
+  // ==== Affiliation legend ====
+  
+  // ==== Abstract ====
+  
+  // ==== Keywords / JEL ====
+    v(0.5em)
+  align(center)[
+    *Keywords:* labour displacement, technological change, technological unemployment, innovation
+     • *JEL:* J63, N30, N70, O33 
+  ]
+  
+
+  // Space before main body
+  v(1.0em)
 
   // Render body
   body
@@ -261,7 +341,7 @@
 
   h1-size: 18pt, h1-above: 1.6em, h1-below: 0.8em,
   h2-size: 12pt, h2-above: 1.2em, h2-below: 0.6em,
-  h3-size: 11pt, h3-above: 1.0em, h3-below: 0.5em,
+  h3-size: 11pt, h3-above: 2.0em, h3-below: 0.5em,
 
   math-font: "New Computer Modern Math"
 )
@@ -285,8 +365,6 @@
   #set par(leading: 1.10em, spacing: 0.35em)
   #it
 ]
-
-#footnote[I gratefully acknowledge the support of colleagues, mentors, friends, and family whose guidance and encouragement made this work possible.]
 
 = Level 1
 <level-1>

@@ -1,9 +1,23 @@
 ---
 title: "Demo: Thesis Body"
+author:
+  - name: "Jonathan Jayes"
+    corresponding: true
+    email: "jonathan.jayes@ekh.lu.se"
+    affiliations: [Lund University]
+  - name: "Benjamin Schneider"
+    affiliations: [Oslo Metropolitan University]
+affiliations:
+  - id: lund
+    name: "Lund University"
+  - id: omu
+    name: "Oslo Metropolitan University"
+keywords: [labour displacement, technological change, technological unemployment, innovation]
+jel: [J63, N30, N70, O33]
 # Customize the thanks footnote here:
 thanks: >
-  I gratefully acknowledge the support of colleagues, mentors, friends, and family
-  whose guidance and encouragement made this work possible.
+  "I gratefully acknowledge the support of colleagues, mentors, friends, and family
+  whose guidance and encouragement made this work possible."
 format:
   thesis-typst-body-typst:
     # If fonts are in your project at _extensions/thesis-typst-body/fonts
@@ -31,14 +45,14 @@ format:
     h2-above: 1.2em
     h2-below: 0.6em
     h3-size: 11pt
-    h3-above: 1.0em
+    h3-above: 2.0em
     h3-below: 0.5em
 
     math-font: "New Computer Modern Math"
     keep-typ: true
 ---
 
-^[{{< meta thanks >}}]
+<!-- ^[{{< meta thanks >}}] -->
 
 # Level 1
 Paragraph one. Paragraph two after a blank line.
