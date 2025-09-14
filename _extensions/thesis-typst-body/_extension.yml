@@ -1,0 +1,40 @@
+title: Thesis Typst Body
+version: "0.1.0"
+quarto-required: ">=1.4.11"
+
+contributes:
+  formats:
+    typst:
+      # Let users add project fonts (works locally & CI)
+      # You can override/remove this in your document YAML.
+      font-paths: ["_extensions/thesis-typst-body/fonts"]
+
+      # Expose body/heading knobs; these feed typst-show.typ
+      metadata:
+        body-font: "Adobe Garamond Pro"      # Lund body default
+        body-size: 11pt
+        line-height: 1.35em
+        paragraph-indent: 0pt
+        paragraph-spacing: 0.6em
+        justify: true
+        hyphenate: true
+
+        heading-font: "Frutiger LT Std"      # Lund headings default
+        heading-smallcaps: false
+        heading-numbering: "1.1.1"
+
+        h1-size: 14pt
+        h1-above: 1.6em
+        h1-below: 0.8em
+        h2-size: 12pt
+        h2-above: 1.2em
+        h2-below: 0.6em
+        h3-size: 11pt
+        h3-above: 1.0em
+        h3-below: 0.5em
+
+        math-font: "New Computer Modern Math" # safe default
+
+      template-partials:
+        - typst-template.typ
+        - typst-show.typ

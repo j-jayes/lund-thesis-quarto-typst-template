@@ -1,0 +1,57 @@
+---
+title: "Demo: Thesis Body"
+# Customize the thanks footnote here:
+thanks: >
+  I gratefully acknowledge the support of colleagues, mentors, friends, and family
+  whose guidance and encouragement made this work possible.
+format:
+  thesis-typst-body-typst:
+    # If fonts are in your project at _extensions/thesis-typst-body/fonts
+    font-paths:
+      - "_extensions/thesis-typst-body/fonts"
+      - "_extensions/thesis-typst-body/fonts/AdobeGaramondPro"
+      - "_extensions/thesis-typst-body/fonts/FrutigerLTStd"
+  
+    # Or, if you installed them system-wide, remove font-paths.
+    body-font: ["AdobeGaramondPro"] 
+    heading-font: ["FrutigerLTStd"] 
+
+    body-size: 11pt
+    line-height: 1.20em      # match template default
+    paragraph-indent: 0pt
+    paragraph-spacing: 2em
+    justify: true
+    hyphenate: true
+
+    heading-numbering: "1.1.a"
+    h1-size: 18pt
+    h1-above: 1.6em
+    h1-below: 0.8em
+    h2-size: 12pt
+    h2-above: 1.2em
+    h2-below: 0.6em
+    h3-size: 11pt
+    h3-above: 1.0em
+    h3-below: 0.5em
+
+    math-font: "New Computer Modern Math"
+    keep-typ: true
+---
+
+^[{{< meta thanks >}}]
+
+# Level 1
+Paragraph one. Paragraph two after a blank line.
+
+## Level 2
+- Bullet
+- Bullet
+
+### Level 3
+Inline math $x^2 + y^2 = z^2$.
+
+While displacement may have many causes, our interest in technological displacement requires a further elaboration of our conceptual framework: how to attribute labor displacement to technological change. In the best case, authors of studies would observe employers stating that workers are being displaced because of the adoption of new technology. This is an exceedingly rare occurrence. Instead, most authors look for the temporal coincidence of technological adoption and displacement of workers whose jobs overlapped with the new technology.
+
+Testing testing one two, lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+
