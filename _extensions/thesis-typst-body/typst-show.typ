@@ -1,7 +1,33 @@
 #show: thesis_body_template.with(
+$if(title)$
+  title: [$title$],
+$endif$
+$if(subtitle)$
+  subtitle: [$subtitle$],
+$endif$
+$if(by-author)$
+  authors: (
+$for(by-author)$
+$if(it.name.literal)$
+    ( name: [$it.name.literal$],
+      affiliation: [$for(it.affiliations)$$it.name$$sep$, $endfor$],
+      email: [$it.email$] ),
+$endif$
+$endfor$
+    ),
+$endif$
+$if(date)$
+  date: [$date$],
+$endif$
+$if(abstract)$
+  abstract: [$abstract$],
+$endif$
+$if(thanks)$
+  thanks: [$thanks$],
+$endif$
   body-font: "$body-font$",
   body-size: $body-size$,
-  line-height: $line-height$,               // will use 1.15em if you don’t override in QMD
+  line-height: $line-height$,               // will use 1.15em if you don't override in QMD
   paragraph-indent: $paragraph-indent$,
   paragraph-spacing: $paragraph-spacing$,
   justify: $if(justify)$$justify$$else$true$endif$,

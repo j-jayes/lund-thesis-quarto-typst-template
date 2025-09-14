@@ -172,6 +172,14 @@
 // typst-template.typ
 
 #let thesis_body_template(
+  // Title and author parameters
+  title: none,
+  subtitle: none,
+  authors: none,
+  date: none,
+  abstract: none,
+  thanks: none,  // Add thanks parameter
+
   body-font: "Adobe Garamond Pro",
   body-size: 11pt,
 
@@ -196,38 +204,11 @@
 
   math-font: "New Computer Modern Math",
 
-  // --- metadata from YAML ---
-  meta-title: none,
-  meta-thanks: none,
-  meta-authors: [],
-  meta-affiliations: [],
-  meta-abstract: none,
-  meta-keywords: [],
-  meta-jel: [],
-
   body
 ) = {
-  // Punctuation superscripts for affiliations (order matters)
-  let aff_syms = ["*", "†", "‡", "§", "¶", "‖", "††", "‡‡", "§§", "¶¶"]
-
-  // Find the index of an affiliation by id or name in meta-affiliations
-  let aff_index = (needle) => {
-    let i = 0
-    for a in meta-affiliations {
-      if (a.name == needle) or (a.id == needle) { i }
-      else { i = i + 1 }
-    }
-    // If not found, -1
-    -1
-  }
-
-  let aff_symbol = (aff_ref) => {
-    let idx = aff_index(aff_ref)
-    if idx >= 0 and idx < aff_syms.len() { aff_syms.at(idx) } else { "?" }
-  }
-
   // Body text
   set text(font: body-font, size: body-size, hyphenate: hyphenate)
+  set page(numbering: none, paper: "sis-g5", margin: 2cm) // No page numbers in body
   set par(
     leading: line-height,              // line spacing within paragraphs
     justify: justify,
@@ -235,7 +216,7 @@
     spacing: paragraph-spacing         // space between paragraphs
   )
 
-  // Headings
+  // Headings (unchanged)
   set heading(numbering: heading-numbering)
   show heading: it => {
     set text(font: heading-font)
@@ -258,63 +239,57 @@
   }
 
   // Lists & math
+  // (Remove any old 'set list(spacing: auto)' line.)
   set list(tight: true, spacing: 0.30em)
   set enum(tight: true, spacing: 0.30em)
+
   show math.equation: set text(font: math-font)
 
-  // ------------------------------------------------------------
-  // FRONT MATTER (Title • Authors • Affiliations • Thanks • Abstract)
-  // ------------------------------------------------------------
-
-  // Symbols used to mark affiliations in the order provided
-  let aff_syms = ["*", "†", "‡", "§", "¶", "‖", "††", "‡‡", "§§", "¶¶"]
-
-  // Build affiliations and authors from YAML at template time.
-  let affs = [
-    
-  ]
-
-  let authors = [
-    
-  ]
-
-  // Look up a symbol for a given affiliation ref (id or name)
-  let aff_symbol = (ref) => {
-    let i = 0
-    while i < affs.len() {
-      if (affs.at(i).name == ref) or (affs.at(i).id == ref) {
-        return aff_syms.at(i)
+  // Title and author block
+  if title != none {
+    align(center)[#block(inset: 2em)[
+      #set text(font: heading-font, size: 1.5em, weight: "bold")
+      // Add thanks footnote to title if it exists
+      #if thanks != none {
+        [#title#footnote(thanks)]
+      } else {
+        title
       }
-      i += 1
-    }
-    "?"
+      #if subtitle != none {
+        parbreak()
+        set text(size: 1.25em)
+        subtitle
+      }
+    ]]
   }
 
-  // ==== Title line (with optional "thanks" footnote) ====
-    align(center)[
-    #set text(font: heading-font, size: h1-size + 2pt, weight: 600)
-    Demo: Thesis Body
-     #footnote{"I gratefully acknowledge the support of colleagues, mentors, friends, and family whose guidance and encouragement made this work possible."
+  if authors != none {
+    let count = authors.len()
+    let ncols = calc.min(count, 3)
+    grid(
+      columns: (1fr,) * ncols,
+      row-gutter: 1.5em,
+      ..authors.map(author =>
+          align(center)[
+            #author.name \
+            #author.affiliation \
+            #author.email
+          ]
+      )
+    )
+  }
 
-} 
-  ]
-  
-  // ==== Authors (with punctuation superscripts + ✉ footnote for corresponding) ====
-  
-  // ==== Affiliation legend ====
-  
-  // ==== Abstract ====
-  
-  // ==== Keywords / JEL ====
-    v(0.5em)
-  align(center)[
-    *Keywords:* labour displacement, technological change, technological unemployment, innovation
-     • *JEL:* J63, N30, N70, O33 
-  ]
-  
+  if date != none {
+    align(center)[#block(inset: 1em)[
+      #date
+    ]]
+  }
 
-  // Space before main body
-  v(1.0em)
+  if abstract != none {
+    block(inset: 2em)[
+      #text(weight: "semibold")[Abstract] #h(1em) #abstract
+    ]
+  }
 
   // Render body
   body
@@ -327,9 +302,24 @@
 )
 
 #show: thesis_body_template.with(
+  title: [Demo: Thesis Body],
+  authors: (
+    ( name: [Jonathan Jayes],
+      affiliation: [Lund University],
+      email: [] ),
+    ( name: [Benjamin Schneider],
+      affiliation: [Oslo Metropolitan University],
+      email: [] ),
+    ),
+  abstract: [Concise abstract text here. Keep it one paragraph for best spacing.
+
+],
+  thanks: [I gratefully acknowledge funding from the XYZ Foundation.
+
+],
   body-font: "Adobe Garamond ProAdobeGaramondPro",
   body-size: 11pt,
-  line-height: 1.20em,               // will use 1.15em if you don’t override in QMD
+  line-height: 1.20em,               // will use 1.15em if you don't override in QMD
   paragraph-indent: 0pt,
   paragraph-spacing: 2em,
   justify: true,
